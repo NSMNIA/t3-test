@@ -8,7 +8,6 @@ import { api } from "../utils/api";
 const Home: NextPage = () => {
     const { data: sessionData, status } = useSession();
     const hello = api.example.getAll.useQuery();
-    console.log(sessionData);
 
     if (status === "loading") {
         return <div>Loading...</div>;
@@ -32,6 +31,9 @@ const Home: NextPage = () => {
                 ) : (<Link href="/auth/signin">
                     Sign in
                 </Link>)}
+                <Link href="/protected">
+                    Protected
+                </Link>
                 <AuthShowcase />
             </main>
         </>
