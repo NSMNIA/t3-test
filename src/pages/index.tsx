@@ -1,10 +1,15 @@
 import { type GetServerSidePropsContext, type NextPage } from "next";
 import { signOut, useSession } from "next-auth/react";
 
+import { api } from "../utils/api";
 import { requireAuth } from "../utils/requireAuth";
 
 const Home: NextPage = () => {
     const { data: sessionData } = useSession();
+
+    const { data: ProtectedData } = api.example.getSecretMessage.useQuery(undefined, {
+        enabled: sessionData?.user !== undefined,
+    });
 
     const handleSingOut = (e: React.MouseEvent<HTMLAnchorElement>) => {
         e.preventDefault();
@@ -17,6 +22,7 @@ const Home: NextPage = () => {
             <p>
                 Welcome, <strong>{sessionData?.user?.name}</strong>!
             </p>
+            <p>{ProtectedData}</p>
             <a href="#signout" onClick={handleSingOut}>
                 Sign Out
             </a>
